@@ -1,7 +1,7 @@
 
 # coding: utf-8
 
-# In[24]:
+# In[1]:
 
 get_ipython().magic(u'matplotlib inline')
 from modules.nanoribon import*
@@ -29,18 +29,26 @@ class Plot(object):
         arrayX=np.asarray([self.xlist])
         np.savetxt("dados.dat",  np.concatenate((arrayX.T,ylist), axis=1), delimiter=" ",fmt='%1.4f')
         pl.figure()
+        pl.rc('text', usetex=True)
+#        pl.rc('font', family='serif')
+        pl.ylabel("Energy",fontsize=18)
+        pl.xlabel(r'\textit{ Wave Number}$\frac{k}{\pi}$',fontsize=18)
         pl.plot(self.xlist, ylist)
         pl.show()
         
-    def plot(self,*indices):
+    def plot(self,matrixV,matrixWcos,matrixWsin,*indices):
         pl.figure()
 
         for i,indice in enumerate(indices):
             eigen=[]
-            for item_k in self.ylist():
+            for item_k in self.ylist(matrixV,matrixWcos,matrixWsin):
                 item=item_k[indice]
                 item=item/pi
-                eigen = np.append(eigen,item)       
+                eigen = np.append(eigen,item)
+            pl.rc('text', usetex=True)
+#        pl.rc('font', family='serif')
+            pl.ylabel("Energy",fontsize=18)
+            pl.xlabel(r'\textit{ Wave Number}$\frac{k}{\pi}$',fontsize=18)
             pl.plot(self.xlist, eigen)
         pl.show()       
 
@@ -52,19 +60,14 @@ Experimento = Hamiltonian(Ny)
 matrixV = Experimento.V(0.5,-1,0,0,0,1,-0.5)['numeric'];
 matrixWcos = Experimento.Wcos(0.5,-1,0,0,0,1,-0.5)['numeric'];
 matrixWsin = Experimento.Wsin(0.5,-1,0,0,0,1,-0.5)['numeric'];
-Grafico=Plot(20)
+Grafico=Plot(500)
+
+#Grafico.plots(matrixV,matrixWcos,matrixWsin)
+
+
+# In[4]:
 
 Grafico.plots(matrixV,matrixWcos,matrixWsin)
-
-
-# In[16]:
-
-
-
-
-# In[ ]:
-
-
 
 
 # In[ ]:
